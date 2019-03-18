@@ -1,0 +1,19 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Create a Counter DynamoDB table.
+Resources:
+  DDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      BillingMode: "PAY_PER_REQUEST"
+      TableName: "Counters"
+      AttributeDefinitions:
+        -
+          AttributeName: "CounterId"
+          AttributeType: "S"
+      KeySchema:
+        -
+          AttributeName: "CounterId"
+          KeyType: "HASH"
+      StreamSpecification:
+        StreamViewType: "NEW_AND_OLD_IMAGES"
+
