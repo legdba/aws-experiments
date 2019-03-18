@@ -1,11 +1,17 @@
 Create a StackSet
 ```shell
-aws cloudformation create-stack-set --stack-set-name "test-$(basename $(pwd))" --template-body file://./ddb.yml
+aws cloudformation create-stack-set \
+  --stack-set-name "test-$(basename $(pwd))" \
+  --template-body file://./ddb.yml
 ```
 
 Instantiate stacks in `us-east-1` and `us-west-2`
 ```shell
-aws cloudformation create-stack-instances --stack-set-name "test-$(basename $(pwd))" --regions "us-east-1" "us-west-2 --account "$(aws sts get-caller-identity --output text --query 'Account')"
+aws cloudformation create-stack-instances \
+  --stack-set-name "test-$(basename $(pwd))" \
+  --regions "us-east-1" "us-west-2 \
+  --account "$(aws sts get-caller-identity \
+  --output text --query 'Account')"
 ```
 
 Setup Global Table (not supported by CloudFormation as of March 2019).
@@ -34,11 +40,17 @@ aws dynamodb get-item \
 
 Destroy all instances
 ```shell
-aws cloudformation delete-stack-instances --stack-set-name "test-$(basename $(pwd))" --regions "us-east-1" "us-west-2" --account "$(aws sts get-caller-identity --output text --query 'Account')" --no-retain-stacks
+aws cloudformation delete-stack-instances \
+  --stack-set-name "test-$(basename $(pwd))" \
+  --regions "us-east-1" "us-west-2" \
+  --account "$(aws sts get-caller-identity \
+  --output text --query 'Account')" \
+  --no-retain-stacks
 ```
 
 And finally delete the StackSet
 ```shell
-aws cloudformation delete-stack-set --stack-set-name "test-$(basename $(pwd))"
+aws cloudformation delete-stack-set \
+  --stack-set-name "test-$(basename $(pwd))"
 ```
 
